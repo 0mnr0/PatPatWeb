@@ -10,7 +10,7 @@
   },
   "content_scripts": [
     {
-		"js": ["contentjs/LightCore.js", "contentjs/main.js"],
+		"js": ["code/LightCore.js", "code/tools.js", "code/main.js", "code/page_init.js"],
         "matches": ["https://*/*"]
     }
   ], 
@@ -22,7 +22,10 @@
 			"etc/hand/pat2.png",
 			"etc/hand/pat3.png",
 			"etc/hand/pat4.png",
-			"etc/sound.mp3"
+			
+			"etc/sounds/pat0.ogg",
+			"etc/sounds/pat1.ogg",
+			"etc/sounds/pat2.ogg"
 		],
 		"matches": ["<all_urls>"]
 	  }

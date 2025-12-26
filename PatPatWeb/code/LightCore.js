@@ -22,7 +22,6 @@ const random = (min, max) => {
 const runLater = async (fun, time) => {
 	if (typeof time !== 'number') {time = 1000;}
 	await sleep(time);
-	await sleep(time);
 	fun();
 }
 
@@ -82,16 +81,6 @@ const RemoveStyle = (id) => {
 	},
 	
 	HTMLElement.prototype.makeZeroAnimation = async function(animation, attributesWithoutAnimations, waitTillEnableAnimation) {
-			// Эта функция отключит анимации для нужных элементов анимации
-			// attributesWithoutAnimations прнимает только список атрибутов у которых будет отключены анимации, пример: ["scale", "background", "color"] (или сторку: "scale background")
-			// Warning: element.style.transition не должен содержать на конце ", " 
-			
-			// animation - Функция в которой прописана анимация, например: () => {
-			//	    element.style.scale = 0.5;
-			//	    element.style.background = 'red';
-			// }
-			
-			// waitTillEnableAnimation - Подождать дополнитльно перед тем как включить анимации (в мс) 
 			if (typeof attributesWithoutAnimations === 'string') {
 				attributesWithoutAnimations = attributesWithoutAnimations.split(' ');
 			}
@@ -122,7 +111,7 @@ const RemoveStyle = (id) => {
 	HTMLElement.prototype.showByWords = function(animationSpeed = 300, fontSize, fontFamily) {
 		const wrapWords = (node) => {
 			if (node.nodeType === Node.TEXT_NODE) {
-				const words = node.textContent.split(/(\s+)/); // сохраняем пробелы
+				const words = node.textContent.split(/(\s+)/);
 				return words.map((w) =>
 					/\s+/.test(w)
 						? document.createTextNode(w)
