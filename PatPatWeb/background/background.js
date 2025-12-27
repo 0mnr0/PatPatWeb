@@ -1,37 +1,4 @@
-const isFireFox = navigator.userAgent.toLowerCase().includes('firefox');
-const BrowserContext = (typeof chrome === 'object') ? chrome : browser;
-
-
-
-
-
-
-const Attribute = {
-	get: (element, attr, defaultValue=null) => {
-		let FinalAttribute = window.getComputedStyle(element)[attr];
-		if (FinalAttribute === 'none') {FinalAttribute = defaultValue}
-		return FinalAttribute
-	}, 
-	
-	getScale: (element) => {
-		let Scale = Attribute.get(element, 'scale', null)
-		if (Scale === null) {Scale = '1 1'}
-		Scale = Scale.split(' ');
-		
-		return {
-			XScale: Number(Scale[0]),
-			YScale: Number(Scale[1])
-		}
-	}, 
-}
-
-
-
-
-
-
-
-
+const log = console.log;
 const Settings = {
 	  get(key, defValue) {
 		return new Promise(resolve => {
@@ -76,4 +43,51 @@ const Settings = {
 		});
 	  } 
 	};
+
+
+
+async function loadPacks() {
+  const url = chrome.runtime.getURL("etc/packs.json");
+  const response = await fetch(url);
+  const data = await response.json();
+  return data
+}
+
+const DefaultValues = {
+	SelectedPack: "PatPat Classic",
+	ShowImages: true,
+	AllowSound: true,
+	PatVolume: 50
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(async () => {
+	const BuiltinPacks = await loadPacks();
+	const UserSettings = await Settings.getAll();
+	console.log(UserSettings);
 	
+	const DefaultValuesKeys = Object.keys(DefaultValues);
+	for (let i = 0; i < DefaultValuesKeys.length; i++) {
+		const key = DefaultValuesKeys[i]
+		if (await Settings.isKeyExists(key) === false) {
+			await Settings.set(key, DefaultValues[key])
+		}
+	}
+	
+})()
+

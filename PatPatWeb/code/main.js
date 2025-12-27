@@ -11,20 +11,48 @@ const PatStrength = 0.25;
 const PatAnimationLength = 140;
 
 const PattingRightNow = new Set();
-const patFiles = [
-	BrowserContext.runtime.getURL("etc/hand/pat0.png"),
-	BrowserContext.runtime.getURL("etc/hand/pat1.png"),
-	BrowserContext.runtime.getURL("etc/hand/pat2.png"),
-	BrowserContext.runtime.getURL("etc/hand/pat3.png"),
-	BrowserContext.runtime.getURL("etc/hand/pat4.png")
-];
-const patSounds = [
-	BrowserContext.runtime.getURL("etc/sounds/pat0.ogg"),
-	BrowserContext.runtime.getURL("etc/sounds/pat1.ogg"),
-	BrowserContext.runtime.getURL("etc/sounds/pat2.ogg")
-];
+let UserSettings = {};
+let patFiles = []; // png sequence will be loaded here
+let patSounds = []; // ogg sequence will be loaded heere
+
+async function loadPacks() {
+	UserSettings = await Settings.getAll();
+    const url = BrowserContext.runtime.getURL("etc/packs.json");
+    const response = await fetch(url);
+    return await response.json()
+}
 
 
+
+
+let LoadedPack = null;
+const loadPackData = async function() {
+	let PackName = await Settings.get('SelectedPack', 'PatPat Classic');
+	let BuiltinPacks = await loadPacks();
+	LoadedPack = BuiltinPacks[PackName];
+	if (LoadedPack === undefined) {
+		alert(`Мы не можем подключить набор ресурсов "${PackName}" в PatPat :(. Выберите другой`);
+		return
+	}
+	const Loaders = ["sequence", "sounds"];
+	
+	
+	
+	for (let loader of Loaders) {
+		let LOADINGThing = LoadedPack[loader];
+		for (let thing of LOADINGThing) {
+			let path = BrowserContext.runtime.getURL(`etc/${LoadedPack.PackPlace}/${thing}`);
+			
+			if (loader==="sequence") { 
+				patFiles.push(path);
+			} else {
+				patSounds.push(path);
+			}
+		}
+	}
+	preloadImages();
+}
+loadPackData();
 
 function preloadImages() {
 	return Promise.all(
@@ -35,11 +63,11 @@ function preloadImages() {
 			img.src = url;
 		}))
 	);
-}; preloadImages();
+}; 
 
 
-async function runPatAnimation(element) {
-	if (PattingRightNow.has(element)) return;
+async function runPatAnimation(element, isAutoClicked, scaleWas) {
+	if (!LoadedPack || PattingRightNow.has(element)) return;
 	if (SupportedElements.includes(element.parentElement.nodeName.toLowerCase())) {return}
 	
 	let origScale = Attribute.get(element, 'scale', '');
@@ -59,21 +87,24 @@ async function runPatAnimation(element) {
 	element.style.pointerEvents = 'none';
 	
 	
-	let overlay = addOverlay(element);
+	let overlay = UserSettings.ShowImages ? addOverlay(element) : null;
 	PattingRightNow.add(element);
 	
 	window.getSelection().removeAllRanges();
 	let goBackAnim = false;
-	new Audio(randChoose(patSounds)).play();
+	let Sound = new Audio(randChoose(patSounds)); 
+	Sound.muted = !UserSettings.AllowSound;
+	Sound.volume = Number(UserSettings.PatVolume)/100;
+	Sound.play();
 	
 	
 	for (let i = 0; i < patFiles.length; i++) {
 		const pat = patFiles[i];
-		overlay.src = pat;
+		if (overlay) { overlay.src = pat; }
 		
 		
 		
-		if (i>(patFiles.length/2) && !goBackAnim) { //start animate scale backwards
+		if (i>=(patFiles.length/2) && !goBackAnim) { //start animate scale backwards
 			goBackAnim = true;
 			element.style.scale = origScale;
 		}
@@ -81,12 +112,17 @@ async function runPatAnimation(element) {
 	}
 	await sleep(PatAnimationLength/patFiles.length);
 
-	overlay.remove();
+		
+	if (overlay) { overlay.remove(); }
 	element.style.pointerEvents = origPointerEvents;
 	element.style.transformOrigin = origTransformOrigin;
 	PattingRightNow.delete(element);
+	
 	if (nextPat) {
-		runPatAnimation(nextPat);
+		if (scaleWas !== undefined) { runPatAnimation(nextPat, true, scaleWas); }
+		else { runPatAnimation(nextPat, true, origScale); }
+	} else if (isAutoClicked) {
+		element.style.scale = scaleWas
 	}
 	
 	
@@ -96,11 +132,15 @@ function randChoose(array) {return array[Math.floor(Math.random()*array.length)]
 
 function addOverlay(target) {
 	const rect = target.getBoundingClientRect();
+	let leftPos = rect.left + window.scrollX;
+	let topPos = rect.top + window.scrollY;
+	if (LoadedPack.XPosMultiplier) { leftPos = leftPos + (rect.width * LoadedPack.XPosMultiplier) }
+	if (LoadedPack.YPosMultiplier) { topPos = topPos + (rect.height * LoadedPack.YPosMultiplier) }
 
 	const overlay = document.createElement('img');
 	overlay.className = 'patClassAnimation';
-	overlay.style.left = rect.left + window.scrollX + 'px';
-	overlay.style.top = rect.top + window.scrollY + 'px';
+	overlay.style.left = leftPos +'px';
+	overlay.style.top = topPos + 'px';
 	overlay.style.width = rect.width + 'px';
 	overlay.style.height = rect.height + 'px';
 	overlay.src = patFiles[0];

@@ -82,7 +82,7 @@ patStyle.textContent = `
 	.patClassAnimation {
 		position: absolute;
 		pointer-events: none;
-		z-index: 9999;
+		z-index: 999999999999;
 		object-fit: contain;
 		border: none; 
 		outline: none;
@@ -90,3 +90,15 @@ patStyle.textContent = `
 	}
 `
 document.head.appendChild(patStyle);
+
+
+
+
+
+
+
+
+
+
+
+

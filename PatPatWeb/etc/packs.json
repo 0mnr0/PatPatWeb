@@ -1,0 +1,38 @@
+{
+	"PatPat Classic": {
+		"PackPlace": "PatPat.Classic",
+		"sequence": [
+			"sequence/pat0.png",
+			"sequence/pat1.png",
+			"sequence/pat2.png",
+			"sequence/pat3.png",
+			"sequence/pat4.png"
+		],
+		"sounds": [
+			"sounds/pat0.ogg",
+			"sounds/pat1.ogg",
+			"sounds/pat2.ogg"
+		],
+		"animLength": 140,
+		"author": "LopyMine"
+	},
+
+	"PatPat Bonk": {
+		"PackPlace": "PatPat.Bonk",
+		"sequence": [
+			"sequence/bonk_animation0.png",
+			"sequence/bonk_animation1.png",
+			"sequence/bonk_animation2.png",
+			"sequence/bonk_animation3.png",
+			"sequence/bonk_animation4.png",
+			"sequence/bonk_animation5.png"
+		],
+		"sounds": [
+			"sounds/bonk.ogg"
+		],
+		"animLength": 170,
+		"XPosMultiplier": -0.25,
+		"YPosMultiplier": -0.4,
+		"author": "LopyMine"
+	}	
+}

@@ -4,7 +4,7 @@
   "version": "1.0",
   "author": "savelijln0@gmail.com",
   "manifest_version": 3,
-  "permissions": [],
+  "permissions": ["storage", "file:///*"],
   "icons": {
 	"128": "/etc/icon.png"
   },
@@ -14,20 +14,32 @@
         "matches": ["https://*/*"]
     }
   ], 
+  "background": {
+    "service_worker": "background/background.js"
+  },
   "web_accessible_resources": [
 	  {
 		"resources": [
-			"etc/hand/pat0.png",
-			"etc/hand/pat1.png",
-			"etc/hand/pat2.png",
-			"etc/hand/pat3.png",
-			"etc/hand/pat4.png",
+			"etc/packs.json",
 			
-			"etc/sounds/pat0.ogg",
-			"etc/sounds/pat1.ogg",
-			"etc/sounds/pat2.ogg"
+			"/etc/PatPat.Classic/sequence/pat0.png",
+			"/etc/PatPat.Classic/sequence/pat1.png",
+			"/etc/PatPat.Classic/sequence/pat2.png",
+			"/etc/PatPat.Classic/sequence/pat3.png",
+			"/etc/PatPat.Classic/sequence/pat4.png",
+			"etc/PatPat.Classic/sounds/pat0.ogg",
+			"etc/PatPat.Classic/sounds/pat1.ogg",
+			"etc/PatPat.Classic/sounds/pat2.ogg",
+			
+			"/etc/PatPat.Bonk/sequence/bonk_animation0.png",
+			"/etc/PatPat.Bonk/sequence/bonk_animation1.png",
+			"/etc/PatPat.Bonk/sequence/bonk_animation2.png",
+			"/etc/PatPat.Bonk/sequence/bonk_animation3.png",
+			"/etc/PatPat.Bonk/sequence/bonk_animation4.png",
+			"/etc/PatPat.Bonk/sequence/bonk_animation5.png",
+			"etc/PatPat.Bonk/sounds/bonk.ogg"
 		],
-		"matches": ["<all_urls>"]
+		"matches": ["<all_urls>", "file:///*"]
 	  }
   ],
   "browser_specific_settings": {
@@ -38,5 +50,13 @@
 		    "required": ["websiteActivity"]
 	    }
     }
-  }
+  },
+  "action": {
+    "default_popup": "popup/settings.html",
+    "default_icon" : "etc/icon.png"
+  },
+  "host_permissions": [
+    "<all_urls>",
+    "file:///*"
+  ]
 }

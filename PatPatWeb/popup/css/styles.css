@@ -1,0 +1,171 @@
+* {font-family: "Comfortaa", sans-serif; color: white; position: relative; transition: all .3s}
+* {
+  -webkit-touch-callout: none;
+    -webkit-user-select: none;
+     -khtml-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none; 
+            user-select: none; 
+}
+span {display: flex; align-items: center}
+
+
+body {
+	background: #0a0a0a;
+	width: 700px;
+	height: 600px;
+	padding: 6px;
+	border: solid 1px gray;
+	display: flex;
+	flex-direction: column;
+}
+
+.flex {display: flex}
+.translateCenter {
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	aspect-ratio: 1/1;
+}
+
+div.pane {background: #19191a; border-radius: 10px; border: solid 1px #363738; }
+div.pane:hover {border: solid 1px #646667; }
+
+div.pane.topPane {
+	width: 100%;
+	height: 64px;
+	padding: 2px 0px;
+	margin-bottom: 10px;
+}
+
+div.topPane span { font-size: xx-large; font-weight: 800 }
+
+img.patPatLoader {
+	z-index: 0;
+	top: 4px;
+}
+div.SettingsDiv {height: 100%;}
+
+
+
+div.leftPane {
+	width: 27.5%;
+	min-width: 27.5%;
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	padding: 6px;
+	margin: 0px 10px;
+	background: none;
+	border: solid 1px transparent !important;
+	white-space: nowrap;
+}
+
+
+
+div.leftPane > div {
+	display: flex; justify-content: flex-start; cursor: pointer; font-weight: 200; gap: 12px; padding: 6px 0px;
+}
+div.leftPane > div:hover {
+	font-weight: 600
+}
+
+div.leftPane > div > span {
+	text-align: center; top: 1px; font-size: 90%
+}
+
+div.leftPane > div.active {
+	font-weight: 900; font-size: 100%
+}
+
+
+div.settingsPane {
+	width: 100%;
+}
+
+
+
+
+
+
+
+
+
+div.SettingSection {width: 100%;}
+div.SettingLine h2 {margin-bottom: 0px; width: calc(100% - 78px); font-size: 120%; font-weight: bold; top: 2px}
+div.SettingLine p {margin-bottom: 0px; opacity: 0.66; font-weight: 300; margin-top: 6px; font-size: small;}
+.SettingLine {
+	cursor: pointer;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 4px;
+    padding: 4px 6px;
+	gap: 0px 6px;
+	border-bottom: solid 1px #333;
+}
+div.inlineSetting {display: flex; gap: 10px; white-space: nowrap; width: 100%; margin-top: 4px}
+div.inlineSetting label {font-size: smaller;}
+
+
+
+
+
+
+
+/* Container for the toggle */
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 30px;
+}
+
+/* Hide default checkbox */
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* The track */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    background-color: #a3a3a3;
+    border-radius: 24px;
+    width: 60px;
+    height: 30px;
+    transition: background-color 0.3s;
+}
+
+/* The circular slider */
+.slider::before {
+    content: "";
+    position: absolute;
+    height: 20px;
+    width: 20px;
+    left: 5px;
+    scale: 1.2;
+    bottom: 5px;
+    background-color: white;
+    border-radius: 50%;
+    transition: all 0.25s cubic-bezier(0.03, 0.97, 0.79, 1.07);
+}
+
+/* Toggled state */
+.toggle-switch input:checked+.slider {
+    background-color: #4caf50;
+}
+
+.toggle-switch input:checked+.slider::before {
+    transform: translateX(25px);
+}
+
+
+
+
+
+input[type="range"] {
+  accent-color: #c56fff;
+}
