@@ -4,6 +4,7 @@ let UserSettings = {};
 let LoadedPack = null;
 let patFiles = [];
 let patSounds = [];
+let BuiltinPacks = [];
 let IsDataPack = false;
 
 
@@ -16,12 +17,13 @@ async function loadPacks() {
 
 async function loadPackData() {
 	let PackName = await Settings.get('SelectedPack', 'PatPat Classic');
-	let BuiltinPacks = await loadPacks();
+	BuiltinPacks = await loadPacks();
 	LoadedPack = BuiltinPacks[PackName];
 	IsDataPack = PackName === "@DataPack"
 	if (IsDataPack) { LoadedPack = await Settings.get('@DataPack', null) }
 	const Loaders = ["sequence", "sounds"];
-	
+	patFiles = [];
+	patSounds = [];
 	
 	
 	for (let loader of Loaders) {
@@ -40,7 +42,9 @@ async function loadPackData() {
 
 
 
-
+function getVolume() {
+	return Number(UserSettings.PatVolume)/100
+}
 
 
 (async () => {
@@ -74,12 +78,12 @@ async function loadPackData() {
 		
 		SettingsPane.findAll('div.SettingLine input[type="range"]').forEach(el => {
 			let SetName = el.getAttribute('SettingName');
-			el.addEventListener('input', () => {
+			el.addEventListener('input', async () => {
 				if (SetName) {
 					NewValue = Number(el.value)
-					Settings.set(SetName, NewValue);
-
+					await Settings.set(SetName, NewValue);
 					const RangeTextValue = el.nextElementSibling;
+					loadPackData();
 					if (RangeTextValue) {RangeTextValue.textContent = `${NewValue}%`}
 				}
 			});
@@ -113,18 +117,28 @@ async function loadPackData() {
 		const DataPackFileText = find('label.zipUpload');
 		const DataPackFileInput = find('input#zipUploader');
 		
+		let lastTimeout = null;
 		DataPackFileInput.addEventListener("change", async e => {
-		  DataPackFileText.textContent = TranslateAssistant.translate.get('DataPackProcessing');
-		  unpackData(e.target.files[0]);
+			clearTimeout(lastTimeout)
+			if (!e.target.files[0]) {return}
+			DataPackFileInput.disabled = true;
+			
+		    DataPackFileText.textContent = TranslateAssistant.translate.get('DataPackProcessing');
+		    let result = await unpackData(e.target.files[0]);
+			if (result.status !== 'ok') {
+				DataPackFileText.classList.add('failed');
+			} else {
+				DataPackFileText.classList.remove('failed');
+			}
+			DataPackFileText.textContent = TranslateAssistant.translate.get(result.reason);
+			
+			lastTimeout = setTimeout(() => {
+				DataPackFileText.textContent = TranslateAssistant.translate.get('UploadDatapack');
+				DataPackFileText.classList.remove('failed');
+				DataPackFileInput.disabled = false;
+			}, 5000)
 		});
 
-		
-		
-		
-		
-		
-		
-		
 		
 	}
 	

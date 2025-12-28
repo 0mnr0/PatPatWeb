@@ -94,19 +94,35 @@ SetupDefault();
 
 
 
-chrome.storage.onChanged.addListener((changes, areaName) => {
-  if (areaName !== "local") return;
-  SetupDefault();
-  log('change!');
 
 
-  chrome.tabs.query({}, (tabs) => {
-    for (const tab of tabs) {
-      if (!tab.id) continue;
 
-      chrome.tabs.sendMessage(tab.id, {
-        type: "PatPat.events.SettingsChange"
+function canSendToTab(tab) {
+  if (!tab?.id) return false;
+  if (!tab.url) return false;
+
+  if (
+    tab.url.startsWith("chrome://") ||
+    tab.url.startsWith("edge://") ||
+    tab.url.startsWith("about:")
+  ) return false;
+
+  return true;
+}
+
+
+chrome.storage.onChanged.addListener(async (changes) => {
+  const tabs = await chrome.tabs.query({});
+
+  for (const tab of tabs) {
+    if (!canSendToTab(tab)) continue;
+
+    try {
+      await chrome.tabs.sendMessage(tab.id, {
+        type: "SettingsChange"
       });
+    } catch {
     }
-  });
+  }
 });
+

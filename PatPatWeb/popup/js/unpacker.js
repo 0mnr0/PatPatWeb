@@ -22,8 +22,7 @@ const unpackData = async function (file) {
 	let soundsFile = zip.file("assets/patpat/sounds.json");	
 	
 	if (!soundsFile) {
-		console.error("sounds.json_isNotExtists");
-		return {status: 'fail', reason: 'soundsjson'};
+		return {status: 'fail', reason: 'unpacker.sounds.json_isNotExtists'};
 	}
 	const sounds = JSON.parse(await soundsFile.async("text"));
 	
@@ -34,7 +33,7 @@ const unpackData = async function (file) {
 	
 	if (!json5File) {
 	    console.error("json5 файл не найден");
-	    return {status: 'fail', reason: '.json5_isNotExtists'};
+	    return {status: 'fail', reason: 'unpacker.textures.json5_isNotExtists'};
 	}
 	const texturesData = JSON5.parse(await json5File.async("text"));
 	
@@ -47,7 +46,7 @@ const unpackData = async function (file) {
 	
 	
 	const pngFile = zip.file(`assets/patpat/${Texture}`);
-	if (!pngFile) return {status: 'fail', 'reason': 'textures_isNotExtists'}
+	if (!pngFile) return {status: 'fail', 'reason': 'unpacker.textures.isNotExtists'}
 	const pngBlob = await pngFile.async("blob");
 	
 	
@@ -68,7 +67,8 @@ const unpackData = async function (file) {
 	}
 	
 	await Settings.set( 'SelectedPack', '@DataPack' )
-	await Settings.set( '@DataPack', HandDataPack )
+	await Settings.set( '@DataPack', HandDataPack );
+	return {status: 'ok', reason: 'unpacker.status.ok'}
 }
 
 

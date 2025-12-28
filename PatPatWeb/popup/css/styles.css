@@ -119,20 +119,27 @@ input#zipUploader {
   display: none;
 }
 
-.zipUpload {
-  display: inline-block;
-  padding: 6px 12px;
-  cursor: pointer;
-  width: 100%;
-  text-align: center;
+.zipUpload.failed {
+    background: #433737;
+	color: #ffacac;
 }
 
+.zipUpload {
+    background: #333;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+    border-radius: 4px;
+    margin-top: 2px;
+}
 
 div.settingsPane div.PatPatPacks div.UploadPack {}
 
 
 div.settingsPane div.PatPatPacks div.UploadPack.DataPack {
-	
+	cursor: default;
 }
 
 
@@ -145,6 +152,7 @@ img.unpackingTexturesProcess {
 	aspect-ratio: auto
 }
 
+lavel.DataPackDescription {font-size: small; text-align: center; color: gray;}
 
 
 

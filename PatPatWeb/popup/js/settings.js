@@ -93,6 +93,7 @@ const findInput = (settingName) => {
 						Choose DataPack
 					</label>
 					<input id="zipUploader" type="file" accept=".zip"/>
+					<lavel for="zipUploader" class="DataPackDescription" data-i18n="DataPackDescription"></span>
 
 
 				<div>
@@ -104,9 +105,9 @@ const findInput = (settingName) => {
 		
 	}
 	
+	// Animation Speed
 	// ShowHand
 	// Hand Skins
-	// PatExtensions
 	
 	document.runSettingBing();
 })()
@@ -117,9 +118,14 @@ const runPatSound = async function() {
 	if (IsDataPack) {
 		SoundPlace = LoadedPack.sounds[0]
 	}
-	let audio = new Audio(IsDataPack ? SoundPlace : BrowserContext.runtime.getURL(SoundPlace));
-	audio.volume = (await Settings.get('PatVolume', 0.5))/100;
-	audio.play();
+	
+	if (IsDataPack) {
+		playBase64Audio(SoundPlace)
+	} else {
+		let audio = new Audio(BrowserContext.runtime.getURL(SoundPlace));
+		audio.volume = getVolume();
+		audio.play();
+	}
 }
 
 
