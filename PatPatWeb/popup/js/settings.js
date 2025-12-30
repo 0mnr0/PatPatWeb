@@ -216,9 +216,9 @@ const RegisterPacksAnimations = () => {
 				</div>
 				
 				<div class="SettingLine">
-					<div class="inlineSetting single">
-						<label for="PatSpeedValue" data-i18n="PatSpeed"></label>
-						<input type="range" style="width: 100%" id="PatSpeedValue" min="0.75" max="1.75" step="0.01" value="${await Settings.get('PatSpeed', 1)}" SettingName="PatSpeed" updatetext="y">
+					<h2 data-i18n="PatSpeed"></h2>
+					<div class="inlineSetting">
+						<input type="range" id="PatSpeedValue" min="0.75" max="1.75" step="0.01" value="${await Settings.get('PatSpeed', 1)}" SettingName="PatSpeed" updatetext="y">
 						<label for="PatSpeedValue" class="Percentage"> ${Math.round(await Settings.get('PatSpeed', 1)*100)}% </label>
 					</div>
 				</div>
