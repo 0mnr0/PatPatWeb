@@ -183,9 +183,23 @@ function getVolume() {
 		}
 		
 		RegisterPacksAnimations();
+		RegisterBlackListProcessor();
 
 		
 	}
 	
 	
 })()
+
+
+
+const getCleanDomain = function(url) {
+  try {
+	  let checkUrl = url.startsWith('http://') || url.startsWith('https://') ? url : 'https://' + url;
+	  
+      let parsed = new URL(checkUrl);
+      return parsed.hostname.replace(/^www\./, '').replaceAll("/","");
+  } catch (e) {
+      return null;
+  }
+}

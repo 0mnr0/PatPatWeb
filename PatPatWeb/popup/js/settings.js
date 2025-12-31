@@ -200,7 +200,7 @@ const RegisterPacksAnimations = () => {
 			`
 		}
 		return `
-			<div class="SettingSection General">
+			<div class="SettingSection General Chosen">
 				<div class="SettingLine">
 					${GetSwitch('AllowSound')} 
 					<div class="inlineSetting">
@@ -227,7 +227,7 @@ const RegisterPacksAnimations = () => {
 			
 			
 			
-			<div class="SettingSection PatPatPacks Chosen">
+			<div class="SettingSection PatPatPacks">
 				<div class="UploadPack DataPack SettingLine">
 				
 				
@@ -267,6 +267,19 @@ const RegisterPacksAnimations = () => {
 					${GenerateDataPackLists()}
 				</div>
 				
+			</div>
+			
+			
+			<div class="SettingSection BlockList">
+				<h2 class="BlackListDesc" data-i18n="BlackListSetting"></h2> 
+				
+				<div class="flex inputBar">
+					<input type="text" autocomplete="off" placeholder="example.com" id="BlackListInputBar"></input>
+					<img class="search" alt="Search Element" src="icons/search.svg">
+					<img class="add" alt="Add Element" src="icons/add.svg">
+				</div>
+				
+				<div class="list"></div>
 			</div>
 				
 		
@@ -325,4 +338,35 @@ async function playBase64Audio(base64String, {volume = 1.0, muted = false} = {})
     } catch (e) {
         console.error("Failed to decode audio:", e);
     }
+}
+
+
+const GetIgnoreList = () => {
+	
+}
+
+const RegisterBlackListProcessor = () => {
+	let BlackListInput = find('.SettingSection.BlockList .inputBar input');
+	let BlackListAddButton = find('.SettingSection.BlockList .inputBar img.add');
+	let BlackListSearchButton = find('.SettingSection.BlockList .inputBar img.search');
+	
+	let processedDomain = '';
+	BlackListInput.addEventListener('input', (event) => {
+		processedDomain = getCleanDomain(BlackListInput.value)
+	});
+	
+	BlackListAddButton.onclick = () => {
+		if (!processedDomain.includes('.')) {
+			Toast.create(
+				TranslateAssistant.translate.get('SpecifyCorrectDomainName'),
+				3000,
+				"OK",
+			);
+			return;
+		}
+		
+		
+	}
+	
+	
 }

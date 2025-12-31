@@ -58,7 +58,8 @@ const DefaultValues = {
 	ShowImages: true,
 	AllowSound: true,
 	PatSpeed: 1,
-	PatVolume: 50
+	PatVolume: 50,
+	IgnoreSites: [],
 };
 
 

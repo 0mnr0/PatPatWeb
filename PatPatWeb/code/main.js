@@ -1,12 +1,6 @@
 const TriggerKey = isFireFox ? "Alt" : "Shift";
 
-const patListening = [];
-const PatAll = false;
-
-const SupportedElements = 
-	PatAll ? ['span', 'p', 'a', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'img', 'svg', 'video', 'button']
-	: ['img', 'svg'];
-	
+const patListening = [];	
 const PatStrength = 0.25;
 
 const PattingRightNow = new Set();

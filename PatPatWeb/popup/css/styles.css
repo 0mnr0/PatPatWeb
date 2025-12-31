@@ -18,6 +18,7 @@ body {
 	outline: solid 1px #4a4644;
 	display: flex;
 	flex-direction: column;
+	overflow: hidden;
 }
 
 .flex {display: flex}
@@ -307,13 +308,53 @@ div.removeSavedDataPack span {
 
 
 
+.SettingSection.BlockList {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	padding: 10px;
+}
+
+.SettingSection.BlockList .flex.inputBar {
+    display: flex;
+    gap: 5px;
+    border-bottom: solid 1px #80808078;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
 
 
+.SettingSection.BlockList .list {
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+    border-radius: 4px;
+}
 
+.SettingSection.BlockList h2.BlackListDesc {margin-bottom: 0px}
 
+.SettingSection.BlockList .flex.inputBar input {
+	outline: none;
+    background: #2f2f2f;
+    width: 100%;
+    border: none;
+    padding: 4px 10px;
+    border-radius: 6px;
+}
 
+.SettingSection.BlockList .flex.inputBar input:focus, .SettingSection.BlockList .flex.inputBar img:hover {
+	background: #444;
+}
 
-
+.SettingSection.BlockList .flex.inputBar img {
+    background: #2f2f2f;
+    width: 34px;
+    aspect-ratio: 1/1;
+    padding: 4px;
+    border-radius: 6px;
+    height: 100%;
+    cursor: pointer;
+}
 
 
 
@@ -410,4 +451,30 @@ input[type="range"]::-webkit-slider-thumb {
 	  background-color: #4caf50;
 	  border-radius: 20px;
 	  box-shadow: -407px 0 0 400px #4caf50;
+}
+
+.toast {
+    background: #333;
+    position: absolute;
+    padding: 4px 8px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    bottom: -40px;
+    right: 4px;
+}
+
+.toast button {
+    background: #222;
+	margin-left: 12px;
+    border: none;
+    padding: 4px 14px;
+    border-radius: 6px;
+    margin-right: -4px;
+}
+
+html div.toast.visible {
+	bottom: 4px;
+	opacity: 1 !important;
 }
