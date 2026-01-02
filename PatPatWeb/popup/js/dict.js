@@ -52,7 +52,7 @@
 		'howlong': `Длина: `,
 		'PackAuthor': `Автор: `,
 	},
-	"by": "ru"
+	"ru-RU": "ru"
 }
 
 

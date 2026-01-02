@@ -438,8 +438,8 @@ input[type="range"]::-moz-range-thumb {
 	border-radius: 20px;
 	border: solid 2px white;
 	background-color: #4caf50;
-	height: 12px;
-    width: 12px;
+	height: 8px;
+    width: 8px;
 }
 
 input[type="range"]::-webkit-slider-thumb {

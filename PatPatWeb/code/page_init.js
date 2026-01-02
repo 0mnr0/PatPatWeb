@@ -1,6 +1,7 @@
 let shiftPressed = false;
 window.addEventListener("keydown", e => { if (e.key === "Shift") shiftPressed = true; });
 window.addEventListener("keyup", e => { if (e.key === "Shift") shiftPressed = false; });
+SupportedElements = ['img', 'svg']
 
 
 
