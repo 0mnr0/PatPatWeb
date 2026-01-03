@@ -3,12 +3,17 @@ from PIL import Image
 import os
 
 def main():
+    overrideSplit = 0
     if len(sys.argv) != 3:
-        print("Usage: python shrinker.py <image.png> <parts>")
-        sys.exit(1)
+        os.system("clear")
+        overrideSplit = int(input("Split: "))
 
     image_path = sys.argv[1]
-    parts = int(sys.argv[2])
+    parts = 0
+    if overrideSplit > 0:
+        parts = overrideSplit
+    else: 
+        parts = int(sys.argv[2])
 
     if parts <= 0:
         print("Parts must be > 0")
@@ -31,7 +36,7 @@ def main():
         right = width if i == parts - 1 else (i + 1) * part_width
 
         crop = img.crop((left, 0, right, height))
-        out_name = f"{base_name}{i}{ext}"
+        out_name = f"out/{base_name}{i}{ext}"
         crop.save(out_name)
 
         print(f"{out_name} -> width: {right - left}, height: {height}")

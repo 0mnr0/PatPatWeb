@@ -1,4 +1,6 @@
+const isFirefox = navigator.userAgent.toLowerCase().includes('firefox');
 const log = console.log;
+
 const Settings = {
 	  get(key, defValue) {
 		return new Promise(resolve => {

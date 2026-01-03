@@ -70,6 +70,10 @@ const RuleSets = {
 		'web.telegram.org': `		
 			.Avatar>.inner, div.media-inner.interactive, .AnimatedSticker
 		`,
+		
+		'addons.mozilla.org': `		
+			.Header-title, .Header-title:link, 
+		`,
 	};
 	
 const GetSiteRuleSet = (siteHost) => {
