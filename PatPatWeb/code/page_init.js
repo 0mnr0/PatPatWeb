@@ -1,6 +1,8 @@
-let shiftPressed = false;
-window.addEventListener("keydown", e => { if (e.key === "Shift") shiftPressed = true; });
-window.addEventListener("keyup", e => { if (e.key === "Shift") shiftPressed = false; });
+let allowPatKeyPressed = false;
+const PatAllowTriggerKey = isFireFox ? "Control" : "Shift"; //shift on firefox is force-showing contextmenu
+
+window.addEventListener("keydown", e => { if (e.key === PatAllowTriggerKey) allowPatKeyPressed = true; });
+window.addEventListener("keyup", e => { if (e.key === PatAllowTriggerKey) allowPatKeyPressed = false; });
 SupportedElements = ['img', 'svg']
 
 
@@ -15,12 +17,12 @@ function runPatInit() {
 		
 		element.tabIndex = 0;
 		element.addEventListener("mousedown", e => {
-			if (e.button === 2 && shiftPressed) {
+			if (e.button === 2 && allowPatKeyPressed) {
 				e.preventDefault();
-				runPatAnimation(element);
+				
 			}
 		});
-		element.addEventListener("contextmenu", e => { if(shiftPressed) { e.preventDefault(); e.stopPropagation(); }});
+		element.addEventListener("contextmenu", e => { if(allowPatKeyPressed) { e.preventDefault(); e.stopPropagation(); }});
 		
 		
 		
@@ -29,7 +31,7 @@ function runPatInit() {
 		    if (e.button === 2) {
 				nextPat = element;
 				rightMouseDownOnElement = true;
-				if(shiftPressed) { e.preventDefault() }
+				if(allowPatKeyPressed) { runPatAnimation(element); e.preventDefault() }
 		    }
 		});
 

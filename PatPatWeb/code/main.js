@@ -210,14 +210,18 @@ function addOverlay(target) {
 }
 
 
-
-
-document.addEventListener("contextmenu", e => {
-	if (e.shiftKey) {
-		e.preventDefault();
-		e.stopPropagation();
-	}
-}, true);
+if (isFireFox) {
+	document.addEventListener("contextmenu", e => {
+		if (allowPatKeyPressed) {
+			e.preventDefault();
+			e.stopPropagation();
+		}
+	}, true);
+} else {
+	window.addEventListener('contextmenu', (e) => {
+		if (allowPatKeyPressed) e.preventDefault();
+	}, true);
+}
 
 
 
