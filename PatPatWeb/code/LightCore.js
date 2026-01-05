@@ -111,7 +111,7 @@ const RemoveStyle = (id) => {
 	HTMLElement.prototype.showByWords = function(animationSpeed = 300, fontSize, fontFamily) {
 		const wrapWords = (node) => {
 			if (node.nodeType === Node.TEXT_NODE) {
-				const words = node.textContent.split(/(\s+)/);
+				const words = node.textContent.split(/(\s+)/); // сохраняем пробелы
 				return words.map((w) =>
 					/\s+/.test(w)
 						? document.createTextNode(w)
@@ -445,8 +445,8 @@ const createElementWith = (elementType, elementProps) => {
     let TrDict = {};
 	let CopiedLngs = [];
     const TranslateAssistant = {
+		
         "init": function(baseLang, dict) {
-			log('init called!');
 			CopiedLngs = [];
             if (typeof baseLang !== 'string') {
                 throw "You need to specify \"baseLang\" key (example: 'en' | 'ru')"
@@ -458,10 +458,8 @@ const createElementWith = (elementType, elementProps) => {
             TrDict = structuredClone(dict);
 
             for (let [lang, val] of Object.entries(TrDict)) {
-				console.log(lang, val);
                 if (typeof val === "string" && TrDict[val]) {
                     TrDict[lang] = TrDict[val];
-					console.log('Copied:', lang);
 					CopiedLngs.push(lang);					
                 }
             }
@@ -470,8 +468,12 @@ const createElementWith = (elementType, elementProps) => {
             window.getString = TranslateAssistant.translate.get;
         },
 
-        isLangAvailable: (lang) => {
+        isLangAvailable: (lang) => { // Checking laungage support in loaded dict
             return Object.keys(TrDict).includes(lang)
+        },
+
+        isLangIncluded: (inputDict, lang) => { // Check laungage support in dict
+            return Object.keys(inputDict).includes(lang)
         },
 
         defaultLocale: function(baseLang){

@@ -424,7 +424,7 @@ div.leftPane .AuthorsTab.active {
 
 .AuthorsTab.active div.avatarlist.bgGradientThing {
 	opacity: 1;
-	left: 10px;
+	left: 25px;
 	scale: 1.5;
 }
 .AuthorsTab .bgGradientThing img {

@@ -63,9 +63,8 @@
 
 
 
-TranslateAssistant.init('en', DICT);
 const lang = navigator.language;
 const LoadLanguage =
-  TranslateAssistant.isLangAvailable(lang) ? lang : 'en';
-
-TranslateAssistant.defaultLocale(LoadLanguage);
+    TranslateAssistant.isLangIncluded(DICT, lang) ? lang : 'en';
+	
+TranslateAssistant.init(LoadLanguage, DICT);
