@@ -211,16 +211,22 @@ const RegisterPacksAnimations = () => {
 				</div>
 				
 				<div class="SettingLine">
-					${GetSwitch('ShowImages')} 
-					<p data-i18n="ShowImagesDescription"></p>
-				</div>
-				
-				<div class="SettingLine">
 					<h2 data-i18n="PatSpeed"></h2>
 					<div class="inlineSetting volumer">
 						<input type="range" id="PatSpeedValue" min="0.75" max="1.75" step="0.01" value="${await Settings.get('PatSpeed', 1)}" SettingName="PatSpeed" updatetext="y">
 						<label for="PatSpeedValue" class="Percentage"> ${Math.round(await Settings.get('PatSpeed', 1)*100)}% </label>
 					</div>
+				</div>
+				
+				
+				<div class="SettingLine">
+					${GetSwitch('ShowImages')} 
+					<p data-i18n="ShowImagesDescription"></p>
+				</div>
+				
+				<div class="SettingLine">
+					${GetSwitch('MakeAnnouncements.Ext')} 
+					<p data-i18n="MakeAnnouncements.Ext.Desc"></p>
 				</div>
 			</div>
 			

@@ -15,6 +15,8 @@
 		'SiteIsAlreadyIgnoring': 'The site is already on the ignored list',
 		'BlockList.ReloadPageToApply': 'Reload the necessary pages to apply the rules',
 		'BlockListSetting': 'Ignore websites',
+		'MakeAnnouncements.Ext': 'Web Events',
+		'MakeAnnouncements.Ext.Desc': 'If the site supports this extension, it will be able to receive Pat events when interacting with the site and perform any actions',
 		'AuthorsTab': 'Authors',
 		
 		'unpacker.sounds.json_isNotExtists': `File "sounds.json" is not found :(`,
@@ -45,6 +47,8 @@
 		'SiteIsAlreadyIgnoring': 'Сайт уже находится в списке игнорируемых',
 		'BlockList.ReloadPageToApply': 'Перезагрузите нужные страницы чтобы применить правила',
 		'BlockListSetting': 'Игнорировать сайты',
+		'MakeAnnouncements.Ext': 'События на сайтах',
+		'MakeAnnouncements.Ext.Desc': 'Если сайт поддерживает это расширение, оно сможет получать Pat события при взаимодействии с сайтом и выполнять какие-либо действия',
 		'AuthorsTab': 'Авторы',
 		
 		'unpacker.sounds.json_isNotExtists': `Файл "sounds.json" не найден :(`,

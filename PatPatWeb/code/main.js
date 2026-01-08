@@ -20,14 +20,13 @@ async function loadPacks() {
 
 
 
-
 const loadPackData = async function() {
 	let PackName = await Settings.get('SelectedPack', 'PatPat Classic');
 	let BuiltinPacks = await loadPacks();
 	if (UserSettings.IgnoreSites.includes(location.host) || UserSettings.IgnoreSites.includes(location.host.replace('www.',''))) {
 		DeLoadThings();
 		return
-	} 
+	}
 	IsDataPack = PackName === "@DataPack";
 	LoadedPack = BuiltinPacks[PackName];
 	
@@ -106,6 +105,10 @@ function getVolume() {
 	return Number(UserSettings.PatVolume)/100
 }
 
+function isWebAnnouncementIsAllowed() {
+	return UserSettings["MakeAnnouncements.Ext"] === true
+}
+
 function getAnimationSpeed() {
 	const Speed = UserSettings.PatSpeed;
 	if (Speed === undefined || Speed === null) {return 1;}
@@ -130,6 +133,8 @@ async function runPatAnimation(element, isAutoClicked, scaleWas) {
 	if (!WorkAllowedOnThisSite) {console.warn('PatPat skipping because this site in a blocklist!')}
 	if (!LoadedPack || PattingRightNow.has(element)) return;
 	if (patListening.includes(element.parentElement)) {return}
+	
+	Announce.start(element, isAutoClicked); //Web Events are Supported
 	
 	let origScale = Attribute.get(element, 'scale', '');
 	let origScaleData = Attribute.getScale(element); // {"XScale": 1, "YScale": 1}
@@ -192,9 +197,8 @@ async function runPatAnimation(element, isAutoClicked, scaleWas) {
 	else if (isAutoClicked) {
 		element.style.scale = scaleWas
 	}
+	Announce.end(element, isAutoClicked); //Web Events are Supported
 }
-
-function randChoose(array) {return array[Math.floor(Math.random()*array.length)]}
 
 function addOverlay(target) {
 	const rect = target.getBoundingClientRect();
@@ -214,6 +218,67 @@ function addOverlay(target) {
 	return overlay;
 }
 
+
+
+const Announce = {
+	start: async (whatTriggered, isAutoClicked) => {
+		if (!isWebAnnouncementIsAllowed()) {return}
+		
+		if (!whatTriggered.dataset.patPatWebExtension) {
+			whatTriggered.dataset.patPatWebExtension = crypto.randomUUID();
+		}
+
+		const patEvent = new CustomEvent(`dsvl0.PatPatWeb.Extension.startAnimation`, {
+			detail: JSON.stringify({
+				AnimationLength: LoadedPack.animLength,
+				AnimationDuration: UserSettings.PatSpeed,
+				PatPackName: await Settings.get('SelectedPack', 'PatPat Classic'),
+				elementSelector: `[data-pat-pat-web-extension="${whatTriggered.dataset.patPatWebExtension}"]`,
+				autoClicked: isAutoClicked
+			})
+		});
+		document.dispatchEvent(patEvent);
+	},
+	end: async (whatTriggered, isAutoClicked) => {
+		if (!isWebAnnouncementIsAllowed()) {return}
+
+		const patEvent = new CustomEvent(`dsvl0.PatPatWeb.Extension.endAnimation`, {
+			detail: JSON.stringify({
+				AnimationLength: UserSettings.PatSpeed,
+				AnimationDuration: LoadedPack.animLength,
+				PatPackName: await Settings.get('SelectedPack', 'PatPat Classic'),
+				elementSelector: `[data-pat-pat-web-extension="${whatTriggered.dataset.patPatWebExtension}"]`,
+				autoClicked: isAutoClicked
+			})
+		});
+		document.dispatchEvent(patEvent);
+	}
+	
+	
+	
+	
+	// You can setup listener for this using this:
+	
+	//  document.addEventListener("dsvl0.PatPatWeb.Extension.startAnimation", (e) => {
+	//		const details = JSON.parse(e.detail);
+	//		console.log('PatEvent:', details);
+	//		console.log('Element:', document.querySelector(details.elementSelector));
+	//  });
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+function randChoose(array) {return array[Math.floor(Math.random()*array.length)]}
 
 if (isFireFox) {
 	document.addEventListener("contextmenu", e => {

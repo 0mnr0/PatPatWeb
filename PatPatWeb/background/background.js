@@ -64,7 +64,8 @@ const DefaultValues = {
 	AllowSound: true,
 	PatSpeed: 1,
 	PatVolume: 50,
-	IgnoreSites: []
+	IgnoreSites: [],
+	"MakeAnnouncements.Ext": true
 };
 
 
