@@ -4,14 +4,13 @@ const PatAllowTriggerKey = isFireFox ? "Control" : "Shift"; //shift on firefox i
 
 window.addEventListener("keydown", e => { if (e.key === PatAllowTriggerKey) allowPatKeyPressed = true; });
 window.addEventListener("keyup", e => { if (e.key === PatAllowTriggerKey) allowPatKeyPressed = false; });
-SupportedElements = ['img', 'svg']
+SupportedElements = ['img', 'svg', 'model-viewer']
 
 
 
 let nextPat = null;
 function runPatInit() {
 	let rules = GetSiteRuleSet(window.location.hostname); if (rules.length > 0) {rules = ", "+rules}
-	
 	findAll('body '+(SupportedElements.join())+rules).forEach(element => {
 		if (patListening.includes(element) || element.className === 'patClassAnimation') {return}
 		patListening.push(element)

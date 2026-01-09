@@ -129,11 +129,12 @@ function getAnimationSpeed() {
 	}
 }
 
-async function runPatAnimation(element, isAutoClicked, scaleWas) {
+async function runPatAnimation(element, isAutoClicked, scaleWas, originalStyleLine) {
 	if (!WorkAllowedOnThisSite) {console.warn('PatPat skipping because this site in a blocklist!')}
 	if (!LoadedPack || PattingRightNow.has(element)) return;
 	if (patListening.includes(element.parentElement)) {return}
 	
+	let origStyles = (originalStyleLine !== undefined) ? originalStyleLine : Attribute.getStylesLine(element); //getting all inline styles
 	Announce.start(element, isAutoClicked); //Web Events are Supported
 	
 	let origScale = Attribute.get(element, 'scale', '');
@@ -190,13 +191,19 @@ async function runPatAnimation(element, isAutoClicked, scaleWas) {
 	PattingRightNow.delete(element);
 	
 	if (nextPat) {
-		if (scaleWas !== undefined) { await runPatAnimation(nextPat, true, scaleWas); return}
-		else { await runPatAnimation(nextPat, true, origScale); return }
+		if (scaleWas !== undefined) { await runPatAnimation(nextPat, true, scaleWas, origStyles); return}
+		else { await runPatAnimation(nextPat, true, origScale, origStyles); return }
 	} 
 	
-	else if (isAutoClicked) {
+	if (!nextPat && isAutoClicked) {
 		element.style.scale = scaleWas
+		element.style = origStyles
 	}
+	
+	if (!nextPat && !isAutoClicked) {
+		element.style = origStyles
+	}
+	
 	Announce.end(element, isAutoClicked); //Web Events are Supported
 }
 

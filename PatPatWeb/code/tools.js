@@ -7,9 +7,26 @@ const BrowserContext = (typeof chrome === 'object') ? chrome : browser;
 
 
 const Attribute = {
+	getStylesLine: (element) => {
+		const styles = element.style;
+		let elementInLineStyle = '';
+		for (styleAttributeName of styles) {
+			elementInLineStyle += (`${styleAttributeName}: ${styles[styleAttributeName]}; `)
+		}
+		return elementInLineStyle;
+		
+	},
+	
+	
+	existenceValidation: (element, attr) => {
+		let FinalAttribute = element.style[attr];
+		if (FinalAttribute === 'none' || !FinalAttribute) {return '';}
+		return FinalAttribute
+	}, 
+	
 	get: (element, attr, defaultValue=null) => {
 		let FinalAttribute = window.getComputedStyle(element)[attr];
-		if (FinalAttribute === 'none') {FinalAttribute = defaultValue}
+		if (FinalAttribute === 'none') {FinalAttribute = defaultValue; wasEmpty = true;}
 		return FinalAttribute
 	}, 
 	
